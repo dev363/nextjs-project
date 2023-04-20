@@ -1,0 +1,10 @@
+.response-li {
+    background: #00000012;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+}
