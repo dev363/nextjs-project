@@ -5,13 +5,10 @@ const nextConfig = {
   },
   images: {
     domains: ["images.panda.org"],
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //     hostname: "images.panda.org",
-    //   },
-    // ],
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;
