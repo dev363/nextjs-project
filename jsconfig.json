@@ -3,6 +3,7 @@
     "paths": {
       "components/*": ["./src/components/*"],
       "pages/*": ["./src/pages/*"],
+      "actions/*": ["./src/actions/*"],
       "styles/*": ["./src/styles/*"],
     }
   }

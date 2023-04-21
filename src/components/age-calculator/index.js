@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
 import { Card, Container, Form, Badge } from "react-bootstrap";
-import "./styles.css";
 
 export default () => {
   const [startDate, setStartDate] = useState("07/04/1997");
@@ -29,7 +28,7 @@ export default () => {
       mdiff = m[0] - m[1],
       d = [todate.getDate(), fromdate.getDate()],
       ddiff = d[0] - d[1];
-    console.log(y, m, d, 89898);
+    console.log(y, m, d, 89898)
 
     if (mdiff < 0 || (mdiff === 0 && ddiff < 0)) --ydiff;
     if (mdiff < 0) mdiff += 12;

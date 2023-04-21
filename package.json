@@ -12,6 +12,8 @@
     "bootstrap": "^5.2.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "generate-password": "^1.7.0",
+    "moment": "^2.29.4",
     "next": "13.3.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.4",
