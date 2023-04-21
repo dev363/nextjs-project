@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
-import "./styles.css";
+import "styles/global.css";
 
 function MyApp({ Component, pageProps }) {
   return <Component {...pageProps} />;

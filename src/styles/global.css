@@ -1,0 +1,38 @@
+.nav-item {
+  display: block;
+  padding: 10px 10px;
+}
+a {
+  text-decoration: none;
+}
+
+.button-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 0px;
+}
+
+.button-section button {
+  width: 10rem;
+}
+
+.result-section span.badge {
+  min-width: 100px;
+  padding: 10px;
+  font-size: 14px;
+  color: #000000;
+}
+input.form-control[type="date"] {
+  text-transform: uppercase;
+}
+.response-li {
+  background: #b3b0b012;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
