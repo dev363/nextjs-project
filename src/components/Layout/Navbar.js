@@ -2,7 +2,7 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 import Link from "next/link";
 
 export default () => (
-  <Navbar bg="dark" variant="dark">
+  <Navbar bg="dark" variant="dark" className="mb-3">
     <Container>
       <Navbar.Brand>
         <Link href="/">Nextjs</Link>
