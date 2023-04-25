@@ -1,14 +1,19 @@
+import { currencyValue } from "actions/common";
 import { Badge } from "react-bootstrap";
 
-const RangeInput = ({
-  min,
-  max,
-  step,
-  value,
-  onChange,
-  isCurrency,
-  ...props
-}) => {
+const defaultProps = {
+  min: 0,
+  max: 100,
+  step: 1,
+  value: 0,
+  iscurrency: false,
+};
+
+const RangeInput = (props) => {
+  const { min, max, step, value, onChange, iscurrency } = {
+    ...defaultProps,
+    ...props,
+  };
   return (
     <div className="range-wrap d-flex mt-1">
       <input
@@ -21,21 +26,9 @@ const RangeInput = ({
         {...props}
         onChange={(e) => onChange(e.target.value)}
       />
-      <Badge>
-        {isCurrency
-          ? Number(value)
-              .toFixed(2)
-              .replace(/\d(?=(\d{3})+\.)/g, "$&,")
-          : value}
-      </Badge>
+      <Badge>{iscurrency ? currencyValue(value) : value}</Badge>
     </div>
   );
 };
-RangeInput.defaultProps = {
-  min: 0,
-  max: 100,
-  step: 1,
-  value: 0,
-  isCurrency: false,
-};
+
 export default RangeInput;

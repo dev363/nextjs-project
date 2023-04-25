@@ -1,4 +1,4 @@
-import { getHours } from "actions/TimeActions";
+import { getHours } from "actions/common";
 import moment from "moment";
 import { Fragment, useEffect, useState } from "react";
 import {
