@@ -1,6 +1,8 @@
 import { currencyValue } from "actions/common";
 import RangeInput from "components/common/RangeInput";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, useRef } from "react";
+// import * as am4core from "@amcharts/amcharts4/core";
+
 import {
   Card,
   Container,
@@ -10,6 +12,9 @@ import {
   Col,
   Button,
 } from "react-bootstrap";
+import dynamic from "next/dynamic";
+
+const LineChart = dynamic(() => import("./pieChart"), { ssr: false });
 
 export default () => {
   const [loanAmount, setLoanAmount] = useState(100000);
@@ -17,6 +22,7 @@ export default () => {
   const [loanTimePeriord, setLoanTimePeriord] = useState(12);
   const [isSubmit, setIsSubmit] = useState(false);
   const [result, setResult] = useState(null);
+  const [chartData, setChartData] = useState([]);
 
   useEffect(() => {
     isSubmit && calculateEMI();
@@ -34,28 +40,33 @@ export default () => {
     calculateEMI();
   };
 
+  useEffect(() => {
+    calculateEMI();
+  }, [isSubmit, loanAmount, loanInterest, loanTimePeriord]);
+
   const calculateEMI = () => {
-    var numberOfMonths = Number(loanTimePeriord);
-    var rateOfInterest = Number(loanInterest);
-    var monthlyInterestRatio = rateOfInterest / 100 / 12;
+    var time = Number(loanTimePeriord);
+    var rate = Number(loanInterest);
+    var amount = Number(loanAmount);
 
-    var top = Math.pow(1 + monthlyInterestRatio, numberOfMonths);
-    var bottom = top - 1;
-    var sp = top / bottom;
-    var emi = loanAmount * monthlyInterestRatio * sp;
-    var full = numberOfMonths * emi;
-    var interest = full - loanAmount;
-    var int_pge = (interest / full) * 100;
+    var principal = parseFloat(amount);
+    var interest = parseFloat(rate) / 100 / 12;
+    var payments = parseFloat(time);
 
-    console.log(top, bottom, sp, emi, full, interest, int_pge);
+    var x = Math.pow(1 + interest, payments);
+    var emi = (principal * x * interest) / (x - 1);
 
     setResult({
       monthltEmi: emi,
-      totalInterest: interest,
-      totalPay: full,
-      totalInterest: int_pge,
+      total: emi * payments,
+      totalInterest: emi * payments - principal,
+    });
+    setChartData({
+      principal,
+      emi: emi * payments - principal,
     });
   };
+
   return (
     <Card>
       <Card.Header>
@@ -134,7 +145,7 @@ export default () => {
             <section className="border p-2 rounded-1 mb-1">
               {loanAmount && (
                 <div className="response-li">
-                  <Badge bg="success">Loan Amount</Badge>
+                  <Badge bg="success">A) Loan Amount</Badge>
                   <span className="result-value">
                     {currencyValue(loanAmount)}
                   </span>
@@ -142,7 +153,7 @@ export default () => {
               )}
               {result?.totalInterest && (
                 <div className="response-li">
-                  <Badge bg="success">Total Interest</Badge>
+                  <Badge bg="secondary">B) Total Interest</Badge>
                   <span className="result-value">
                     {currencyValue(result?.totalInterest)}
                   </span>
@@ -151,24 +162,23 @@ export default () => {
 
               {result?.totalInterest && (
                 <div className="response-li">
-                  <Badge bg="info">Total Payable Amount</Badge>
+                  <Badge bg="info">C) Total Payable Amount (A+B) </Badge>
                   <span className="result-value">
-                    {currencyValue(
-                      Number(result?.totalInterest) + Number(loanAmount)
-                    )}
+                    {currencyValue(Number(result?.total))}
                   </span>
                 </div>
               )}
 
               {result?.monthltEmi && (
                 <div className="response-li">
-                  <Badge bg="warning">Monthly EMI</Badge>
+                  <Badge bg="warning">D) Monthly EMI</Badge>
                   <span className="result-value">
-                    {currencyValue(result.monthltEmi)}{" "}
+                    {currencyValue(result.monthltEmi)}
                   </span>
                 </div>
               )}
             </section>
+            <LineChart data={chartData} />
           </section>
         )}
       </Card.Body>
